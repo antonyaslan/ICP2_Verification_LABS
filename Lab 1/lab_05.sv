@@ -12,7 +12,7 @@ module lab_05 #(parameter PERIOD = 10) (
     logic [7:0] data;
 
 
-    typedef enum logic [2:0] { ADD, SUB, AND, OR, XOR, MUL, DIV, MOD } operations_t;
+    typedef enum logic [2:0] { ADD, SUB, AND, OR, XOR, MUL, DIV, MOD } operations_t;   
     typedef enum logic [1:0] { REG0, REG1, REG2, REG3 } registers_t;
 
     operations_t my_operation;
@@ -34,7 +34,7 @@ module lab_05 #(parameter PERIOD = 10) (
     covergroup covergroup_2 @(posedge clk);
         c1: coverpoint address;  // This creates automatic bins (7 bins)
         c2: coverpoint data {
-            bins data_bin[] = { 0, 1, 2, 5, 100 };  // This creates custom bins (5 bins)
+            bins data_bin = { 0, 1, 2, 5, 100 };  // This creates custom bins (5 bins)
         }
     endgroup: covergroup_2
 
@@ -43,7 +43,9 @@ module lab_05 #(parameter PERIOD = 10) (
         c1: coverpoint address;  // This creates automatic bins (7 bins)
         c2: coverpoint data {
             bins data_bin[] = { 0, 1, 2, 5, 100 };  // This creates custom bins (5 bins)
-            bins data_bin_rest = default;  // This creates 1 bin for all the remaining values
+            bins data_bin_3_4 = { [3:4] };  // Bin 3:4
+            bins data_bin_6_99 = { [6:99] };  // Bin 6:99
+            bins data_bin_101_255 = { [101:255] };  // Bin 101:255
         }
     endgroup: covergroup_3
 
