@@ -101,13 +101,13 @@ module lab_05 #(parameter PERIOD = 10) (
 
 
     initial begin
-        for (operations_t op = my_operation.first; op < my_operation.last; op = op.next) begin            
-            my_operation = op;
-            for (registers_t register = my_register.first; register < my_register.last; register = my_register.next) begin
-                my_register = register;
+        for (int i = ADD; i <= MOD; i++) begin            
+            my_operation = operations_t'(i);
+            for (int j = REG0; j <= REG3; j++) begin
+                my_register = registers_t'(j);
                 #10ns;
-                $display(register);
-            end           
+                $display(my_register);
+            end  
         end
 
         // Task 4
