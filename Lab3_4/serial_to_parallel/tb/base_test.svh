@@ -66,15 +66,30 @@ class base_test extends uvm_test;
             length == 2;
         })) `uvm_fatal(get_name(), "Failed to randomize reset")
         reset.start(m_tb_env.m_reset_agent.m_sequencer);
+
+        serial_data = serial_data_seq::type_id::create("serial_data");
+        if (!(serial_data.randomize())) `uvm_fatal(get_name(), "Failed to randomize seral data")
+        serial_data.start(m_tb_env.m_serial_data_agent.m_sequencer);
         // Fork two processes that running in parallel
         fork
             // Randomize reset the DUT N times
             begin
-
+                repeat(no_of_data_loop) begin
+                    serial_data = serial_data_seq::type_id::create("serial_data");
+                    if (!(serial_data.randomize())) `uvm_fatal(get_name(), "Failed to randomize seral data")
+                    serial_data.start(m_tb_env.m_serial_data_agent.m_sequencer);
+                end
             end
 
             begin
-
+                repeat(no_of_data_loop) begin
+                    reset = reset_seq::type_id::create("reset");
+                    if (!(reset.randomize() with {
+                        delay != 0;
+                        length == 2;
+                    })) `uvm_fatal(get_name(), "Failed to randomize reset")
+                    reset.start(m_tb_env.m_reset_agent.m_sequencer);
+                end
             end
         
         join

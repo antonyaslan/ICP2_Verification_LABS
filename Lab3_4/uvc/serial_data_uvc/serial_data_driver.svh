@@ -48,7 +48,7 @@ class serial_data_driver extends uvm_driver #(serial_data_seq_item);
         m_config.m_vif.start_bit <= 0;
         m_config.m_vif.serial_data <= 0;
         //TASK 1: Add a parity_enable signal:
-
+        m_config.m_vif.parity_enable <= 1;
         //
         
         forever begin
