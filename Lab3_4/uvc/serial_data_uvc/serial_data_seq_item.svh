@@ -38,6 +38,7 @@ class serial_data_seq_item extends uvm_sequence_item;
     `uvm_field_int(start_bit_delay,UVM_ALL_ON|UVM_DEC)
     `uvm_field_int(start_bit_length,UVM_ALL_ON|UVM_DEC)
     `uvm_field_int(serial_data,UVM_ALL_ON|UVM_DEC)
+    `uvm_field_int(parity_error,UVM_ALL_ON|UVM_DEC)
     `uvm_field_int(monitor_start_bit_value,UVM_ALL_ON|UVM_DEC)
     `uvm_field_int(monitor_start_bit_valid,UVM_ALL_ON|UVM_DEC)
     `uvm_field_int(monitor_data_valid,UVM_ALL_ON|UVM_DEC)

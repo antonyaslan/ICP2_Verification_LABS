@@ -55,14 +55,14 @@ class serial_data_driver extends uvm_driver #(serial_data_seq_item);
             // Wait for sequence item
             seq_item_port.get(seq_item);
             // Perform the requested action and send response back.
-            `uvm_info(get_name(),$sformatf("Start serial interface transaction. Delay start bit=%0d  Start bit length=%0d  Serial data=%08b", seq_item.start_bit_delay, seq_item.start_bit_length, seq_item.serial_data),UVM_HIGH)
+            `uvm_info(get_name(),$sformatf("Start serial interface transaction. Delay start bit=%0d  Start bit length=%0d  Serial data=%08b", seq_item.start_bit_delay, seq_item.start_bit_length, seq_item.serial_data),UVM_LOW)
             fork
                 begin
                     bit parity_bit = 0;
                     for (int nn=0; nn < 8; nn++) begin
                         @(posedge m_config.m_vif.clk);
                         m_config.m_vif.serial_data <= seq_item.serial_data[nn];
-                        `uvm_info(get_name(),$sformatf("Sending serial_data. Bitno=%0d Data=%0d", nn, seq_item.serial_data[nn]), UVM_FULL)
+                        `uvm_info(get_name(),$sformatf("Sending serial_data. Bitno=%0d Data=%0d", nn, seq_item.serial_data[nn]), UVM_LOW)
                     end
 
 
@@ -76,16 +76,17 @@ class serial_data_driver extends uvm_driver #(serial_data_seq_item);
 
                         if(seq_item.parity_error) begin
                             parity_bit =~parity_bit;
+                            `uvm_info(get_name(),$sformatf("Flip the bit!!! Parity_bit=%0d", parity_bit,), UVM_LOW)
                         end
                         
                         @(posedge m_config.m_vif.clk);
                         m_config.m_vif.serial_data <= parity_bit;
-                        `uvm_info(get_name(),$sformatf("Sending parity bit. Parity_bit=%0d", parity_bit), UVM_FULL)
+                        `uvm_info(get_name(),$sformatf("Sending parity bit. Parity_bit=%0d", parity_bit), UVM_LOW)
                     end
                     
                 end
                 begin
-                    `uvm_info(get_name(),$sformatf("Starting start_bit delay=%0d length=%0d", seq_item.start_bit_delay, seq_item.start_bit_length), UVM_FULL)
+                    `uvm_info(get_name(),$sformatf("Starting start_bit delay=%0d length=%0d", seq_item.start_bit_delay, seq_item.start_bit_length), UVM_LOW)
                     for (int ii=0; ii < seq_item.start_bit_delay; ii++) begin
                         @(posedge m_config.m_vif.clk);
                     end

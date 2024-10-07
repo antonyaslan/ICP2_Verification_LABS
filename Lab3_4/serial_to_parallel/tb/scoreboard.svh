@@ -152,7 +152,7 @@ class scoreboard extends uvm_component;
         // Sample serial data and DUT output coverage
         input_data_valid= item.monitor_data_valid;
         input_data= item.serial_data;
-        //input_parity_error= item.parity_error;
+        input_parity_error= item.parity_error;
         serial_to_parallel_covergrp.sample();
 
         // Setup transmission_state which depends on monitor information
@@ -175,6 +175,7 @@ class scoreboard extends uvm_component;
     //------------------------------------------------------------------------------
     virtual function void write_scoreboard_parallel_data(parallel_data_seq_item item);
         `uvm_info(get_name(),$sformatf("PARALLEL_DATA_MONITOR:\n%s",item.sprint()),UVM_HIGH)
+        `uvm_info(get_name(),$sformatf("Looking for errors:\n"),UVM_HIGH)
         // Check if last serial data has been checked against DUT output data
         if (dut_data_valid) begin
             `uvm_error(get_name(), $sformatf("Received DUT data is valid for the second time without any valid serial data before! Previous output data = %0d", dut_data))
